@@ -7,8 +7,6 @@
 ## TODO
 
 - Add crop and store to functions folder and source in relevant scripts to avoid repeating?
-- Adapt statistics script/section from count pixels in quadrats script.
-
 
 #### Introduction
 
@@ -53,7 +51,7 @@ It is recommended that the combo loop is split among multiple `R` sessions as it
 
 #### Part 2c: Object-based Image Analysis (OBIA) of RGB and texture bands
 
-OBIA analysis was performed in GRASS GIS 7.3 using a shell script. Details of the whole process can be found in `OBIA_Classifications_RGBTex.sh`. This workflow reads in the RGB and texture layers, segments them, produces a vector output to then select segments from and finally classifies the rasters based on a set of segements chosen by the user. More details can be found throughout the script.
+OBIA analysis was performed in GRASS GIS 7.3 using a shell script. Details of the whole process can be found in `OBIA_Classifications_RGBTex.sh`. This workflow reads in the RGB and texture layers, segments them, produces a vector output to then select segments from and finally classifies the rasters based on a set of segements chosen by the user. The number of classes is defined by the user when the selection of training segments is undertaken.
 
 #### Part 3: Collating Classification Results & Comparing with Ground Data
 
@@ -73,7 +71,9 @@ Also, the `files` object is created, storing a list of the output text files cre
 
 Finally the results data frame is formatted to display the id of the classifications with the lowest RMSD scores. From this, one can determine which classification works best by revisiting the `combos` object to determine which layers were used in that particular classifier.
 
-**At this stage, the combinations of bands/layers and classes with the lowest RMSD scores are chosen as the candidate classifiers to further analyse. One for chosen for each RGB, RGB & Texture and OBIA.**
+**At this stage, the combinations of bands/layers and classes with the lowest RMSD scores are chosen as the candidate classifiers to further analyse. One is chosen for each RGB, RGB & Texture and OBIA (only one is produced in the OBIA workflow).**
 
 
-#### Part 4: Statistics: Calculating Uncertainty
+#### Part 4: Bootstrapped statistics
+
+The `Bootstrapped_Statistics.R` script shows an example of the calculations of statistics on the differences between observed and classified coverages across quadrats. The script requires the following inputs: A classified raster, a set of polygons defining the locations of the qudrats in space, and a data.frame with information about the observed coverages in the quadrats. The script combines the input information, calculates differences between observed and classified cover, then performs bootstrapped statistics on the data. The output is the mean, SD and uncertainty for each iteration which can then be used for further calculations and graph creation. This script can be applied to classified rasters from any of the three classifiers used in the study.
