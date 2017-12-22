@@ -2,13 +2,12 @@
 
 ##### Duffy et al. (2017) Spatial assessment of intertidal seagrass meadows using optical imaging systems and a lightweight drone. *Estuarine, Coastal and Shelf Science.*
 
-###### 06/11/17
+###### 22/12/17
 
-##TODO
+## TODO
 
 - Add crop and store to functions folder and source in relevant scripts to avoid repeating?
-- Run RGB + Tex classifications to generate some real output text files for further processing.
-- Adapt statistics script/section from count pixels in quadrats script. 
+- Adapt statistics script/section from count pixels in quadrats script.
 
 
 #### Introduction
@@ -51,6 +50,10 @@ Data is read in and an an object `combos` created. This is a list containing all
 The final part of the script contains some nested loops which query the `combos` list for combinations of bands. Once a combination is selected and a stack of associated rasters created, an unsupervised classification is performed with between 2 and 5 classes. Upon each iteration of the classes loop an output data frame is created from the `crop_and_store` function. Once successfully completed, one will have 100s of text files each named iteratively containing the counts of pixels within each quadrat for each band combination and varying numbers of classes.
 
 It is recommended that the combo loop is split among multiple `R` sessions as it takes a long time to run on big orthomosaics such as the data presented in the paper.
+
+#### Part 2c: Object-based Image Analysis (OBIA) of RGB and texture bands
+
+OBIA analysis was performed in GRASS GIS 7.3 using a shell script. Details of the whole process can be found in `OBIA_Classifications_RGBTex.sh`. This workflow reads in the RGB and texture layers, segments them, produces a vector output to then select segments from and finally classifies the rasters based on a set of segements chosen by the user. More details can be found throughout the script.
 
 #### Part 3: Collating Classification Results & Comparing with Ground Data
 
